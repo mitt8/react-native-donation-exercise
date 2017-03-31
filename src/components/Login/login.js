@@ -2,8 +2,34 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image} from 'react-native';
 import LoginForm from './loginForm';
 
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginButton,
+  AccessToken,
+  LoginManager,
+  GraphRequest,
+  GraphRequestManager
+} = FBSDK;
+
+
 
 export default class Login extends Component{
+
+  goToHomePage(accessToken) {
+ this.props.navigator.replace({id: 'Homepage'});
+}
+
+componentWillMount () {
+    console.log(AccessToken)
+    AccessToken.getCurrentAccessToken().then(
+      (data) => {
+        if(data)
+        this.goToHomePage();
+      }
+    )
+  }
+
+
     render(){
       return(
         <View style={styles.wrapper}>
@@ -18,8 +44,33 @@ export default class Login extends Component{
 
 
           <View style={styles.formContainer}>
-            <LoginForm/>
+            <LoginButton
+              // publishPermissions={["publish_actions"]}
+              readPermissions={["email","public_profile"]}
+              onLoginFinished={
+                (error, result) => {
+                  if (error) {
+                    alert("login has error: " + result.error);
+                  } else if (result.isCancelled) {
+                    alert("login is cancelled.");
+                  } else {
+                    AccessToken.getCurrentAccessToken().then(
+                  (data) => {
+                    this.goToHomePage();
+                  })
+                    // AccessToken.getCurrentAccessToken().then(
+                    //   (data) => {
+                    //     alert(data.accessToken.toString())
+                    //   }
+                    // )
+                  }
+                }
+              }
+              onLogoutFinished={() => alert("logout.")}/>
           </View>
+
+
+
           <View>
             <Text style={styles.footer}>by Share360 Team</Text>
           </View>
