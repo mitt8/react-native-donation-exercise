@@ -38,8 +38,7 @@ componentWillMount () {
           style={styles.logo}
           source={require('../../images/charity.png')}
         />
-            <Text style={styles.title}>DONAT</Text>
-            <Text style={styles.info}>Challenge The World To Donate</Text>
+            <Text style={styles.title}>Facebook Login Exercise</Text>
         </View>
 
 
@@ -72,7 +71,7 @@ componentWillMount () {
 
 
           <View>
-            <Text style={styles.footer}>by Share360 Team</Text>
+            <Text style={styles.footer}>Mithat C.</Text>
           </View>
 
         </View>
